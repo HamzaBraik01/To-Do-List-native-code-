@@ -8,7 +8,14 @@ let SaveTask = document.getElementById('SaveTask');
 let AnnulerTask = document.getElementById('AnnulerTask');
 let AddTask = document.getElementById('AddTask');
 
-let dataTask = [];
+let dataTask;
+if(localStorage.Task != null){
+  dataTask=Json.parse(localStorage.Task);
+}else{
+  let dataTask = [];
+
+}
+
 
 AddTask.onclick = function(){
   let taskForm = document.getElementById('taskForm')
@@ -22,4 +29,16 @@ AnnulerTask.onclick = function(){
   taskForm.classList.add('hidden');
   let taskFormContent = document.getElementById('taskFormContent');
   taskFormContent.reset();
+}
+SaveTask.onclick=function(){
+  let NewTask = {
+    taskTitle:taskTitle.value,
+    taskDescription:taskDescription.value,
+    taskStatus:taskStatus.value,
+    taskStartDate:taskStartDate.value,
+    taskDueDate:taskDueDate.value,
+    taskPriority:taskPriority.value,
+  }
+  dataTask.push(NewTask);
+  localStorage.setItem('Task',JSON.stringify(dataTask));
 }
