@@ -7,12 +7,15 @@ let taskPriority = document.getElementById('taskPriority');
 let SaveTask = document.getElementById('SaveTask');
 let AnnulerTask = document.getElementById('AnnulerTask');
 let AddTask = document.getElementById('AddTask');
-
+let formTitle = document.getElementById('formTitle');
+let btnTitle = document.getElementById('SaveTask');
+let mode='creat';
+let tmp;
 let dataTask;
 if(localStorage.Task != null){
   dataTask=JSON.parse(localStorage.Task);
 }else{
-  let dataTask = [];
+  dataTask = [];
 
 }
 
@@ -25,12 +28,17 @@ AddTask.onclick = function(){
   
 }
 AnnulerTask.onclick = function(){
+
   let taskForm = document.getElementById('taskForm')
   taskForm.classList.add('hidden');
   let taskFormContent = document.getElementById('taskFormContent');
   taskFormContent.reset();
 }
-SaveTask.onclick=function () {
+SaveTask.onclick=function (event) {
+  event.preventDefault();
+  let taskForm = document.getElementById('taskForm')
+  taskForm.classList.add('hidden');
+  let taskFormContent = document.getElementById('taskFormContent');
   let NewTask = {
     taskTitle:taskTitle.value,
     taskDescription:taskDescription.value,
@@ -39,9 +47,19 @@ SaveTask.onclick=function () {
     taskDueDate:taskDueDate.value,
     taskPriority:taskPriority.value,
   }
-  dataTask.push(NewTask);
+  taskFormContent.reset();
+  if (mode==='creat'){
+    dataTask.push(NewTask);
+  }
+  else{
+    dataTask[tmp]=NewTask;
+    btnTitle.textContent="Save";
+    mode='creat'
+  }
+
   localStorage.setItem('Task',JSON.stringify(dataTask));
   showdata();
+  updateTaskCounts();
   
 }
 
@@ -100,12 +118,14 @@ function deleteTask(i){
   dataTask.splice(i,1);
   localStorage.Task=JSON.stringify(dataTask);
   showdata();
+  updateTaskCounts();
 
 }
-let formTitle = document.getElementById('formTitle');
+formTitle.textContent = "New Task";
+
 function EditTask(i){
-  formTitle.textContent = "Edit Task"
-  let taskForm = document.getElementById('taskForm')
+  formTitle.textContent = "Edit Task";
+  let taskForm = document.getElementById('taskForm');
   taskForm.classList.remove('hidden');
   taskTitle.value = dataTask[i].taskTitle;
   taskDescription.value = dataTask[i].taskDescription;
@@ -113,7 +133,32 @@ function EditTask(i){
   taskStartDate.value = dataTask[i].taskStartDate;
   taskDueDate.value = dataTask[i].taskDueDate;
   taskPriority.value = dataTask[i].taskPriority
-
+  mode='update';
+  tmp=i;
+  btnTitle.textContent="Update";
+  updateTaskCounts();
 
 }
+function updateTaskCounts() {
+  let todoCount = 0;
+  let doingCount = 0;
+  let doneCount = 0;
+  for (let i = 0; i < dataTask.length; i++) {
+    switch (dataTask[i].taskStatus) {
+      case "todo":
+        todoCount++;
+        break;
+      case "doing":
+        doingCount++;
+        break;
+      case "done":
+        doneCount++;
+        break;
+    }
+  }
+  document.getElementById('todoCount').textContent = `To Do: ${todoCount}`;
+  document.getElementById('doingCount').textContent = `Doing: ${doingCount}`;
+  document.getElementById('doneCount').textContent = `Done: ${doneCount}`;
+}
+
 showdata();
