@@ -78,7 +78,7 @@ function showdata() {
             <strong>Due Date:</strong> ${dataTask[i].taskDueDate}
         </p>
         <div class="flex justify-end">
-            <button onclick="toggleModal()" class="mr-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Edit</button>
+            <button onclick="EditTask(${i})" class="mr-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Edit</button>
             <button onclick="deleteTask(${i})" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Delete</button>
         </div>
       </div>
@@ -100,6 +100,20 @@ function deleteTask(i){
   dataTask.splice(i,1);
   localStorage.Task=JSON.stringify(dataTask);
   showdata();
+
+}
+let formTitle = document.getElementById('formTitle');
+function EditTask(i){
+  formTitle.textContent = "Edit Task"
+  let taskForm = document.getElementById('taskForm')
+  taskForm.classList.remove('hidden');
+  taskTitle.value = dataTask[i].taskTitle;
+  taskDescription.value = dataTask[i].taskDescription;
+  taskStatus.value = dataTask[i].taskStatus;
+  taskStartDate.value = dataTask[i].taskStartDate;
+  taskDueDate.value = dataTask[i].taskDueDate;
+  taskPriority.value = dataTask[i].taskPriority
+
 
 }
 showdata();
