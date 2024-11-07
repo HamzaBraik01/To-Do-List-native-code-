@@ -34,8 +34,7 @@ AnnulerTask.onclick = function(){
   let taskFormContent = document.getElementById('taskFormContent');
   taskFormContent.reset();
 }
-SaveTask.onclick=function (event) {
-  event.preventDefault();
+SaveTask.onclick=function () {
   let taskForm = document.getElementById('taskForm')
   taskForm.classList.add('hidden');
   let taskFormContent = document.getElementById('taskFormContent');
@@ -113,6 +112,7 @@ function showdata() {
   document.getElementById('todoColumn').innerHTML = todoTasks;
   document.getElementById('doingColumn').innerHTML = doingTasks;
   document.getElementById('doneColumn').innerHTML = doneTasks;
+  updateTaskCounts();
 }
 function deleteTask(i){
   dataTask.splice(i,1);
@@ -139,6 +139,9 @@ function EditTask(i){
   updateTaskCounts();
 
 }
+window.onload = function() {
+  showdata(); 
+};
 function updateTaskCounts() {
   let todoCount = 0;
   let doingCount = 0;
