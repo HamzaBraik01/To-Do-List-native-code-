@@ -35,6 +35,36 @@ AnnulerTask.onclick = function(){
   taskFormContent.reset();
 }
 SaveTask.onclick=function () {
+  if (taskTitle.value === "") {
+    alert("Veuillez entrer un titre pour la tâche.");
+    taskTitle.focus();
+    return;
+  }
+
+  if (taskDescription.value === "") {
+    alert("Veuillez entrer une description pour la tâche.");
+    taskDescription.focus();
+    return;
+  }
+
+  if (taskStartDate.value === "") {
+    alert("Veuillez sélectionner une date de début.");
+    taskStartDate.focus();
+    return;
+  }
+
+  if (taskDueDate.value === "") {
+    alert("Veuillez sélectionner une date de fin.");
+    taskDueDate.focus();
+    return;
+  }
+
+  if (taskStartDate.value > taskDueDate.value) {
+    alert("La date de début ne peut pas être postérieure à la date de fin.");
+    taskStartDate.focus();
+    return;
+  }
+
   let taskForm = document.getElementById('taskForm')
   taskForm.classList.add('hidden');
   let taskFormContent = document.getElementById('taskFormContent');
