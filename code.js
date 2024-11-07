@@ -78,8 +78,8 @@ function showdata() {
             <strong>Due Date:</strong> ${dataTask[i].taskDueDate}
         </p>
         <div class="flex justify-end">
-            <button onclick="toggleModal('edit', this.parentElement.parentElement)" class="mr-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Edit</button>
-            <button onclick="deleteTask(this.parentElement.parentElement)" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Delete</button>
+            <button onclick="toggleModal()" class="mr-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Edit</button>
+            <button onclick="deleteTask(${i})" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Delete</button>
         </div>
       </div>
     `;
@@ -96,5 +96,10 @@ function showdata() {
   document.getElementById('doingColumn').innerHTML = doingTasks;
   document.getElementById('doneColumn').innerHTML = doneTasks;
 }
+function deleteTask(i){
+  dataTask.splice(i,1);
+  localStorage.Task=JSON.stringify(dataTask);
+  showdata();
 
+}
 showdata();
